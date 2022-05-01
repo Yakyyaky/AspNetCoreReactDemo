@@ -31,12 +31,13 @@ namespace AspNetCoreReactDemo.Controllers
         [HttpPost("model1")]
         public async Task<IActionResult> HandleModel1([FromBody] ModelType1 model)
         {
-            if (!model.DenyUnlessLoggedIn)
+            if (!model.DenyUnlessLoggedIn 
+                || model.DenyUnlessLoggedIn && User.Identity.IsAuthenticated)
             {
                 // allow anonymous
                 if (await SaveData(model.SomeOtherField))
                 {
-                    return Ok();
+                    return Ok(new ModelResult<ModelType1>(true, model));
                 }
 
                 return Problem("failed to commit your data", null, StatusCodes.Status500InternalServerError);
@@ -50,7 +51,7 @@ namespace AspNetCoreReactDemo.Controllers
         {
             if (await SaveData(model.SomeOtherField))
             {
-                return Ok();
+                return Ok(new ModelResult<ModelType2>(true, model));
             }
 
             return Problem("failed to commit your data", null, StatusCodes.Status500InternalServerError);
