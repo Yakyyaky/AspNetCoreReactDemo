@@ -9,11 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace AspNetCoreReactDemo.Services
 {
-    public interface IAuthenticationManager
-    {
-        string Authenticate(UserCredential credential);
-    }
-
     public class BearerTokenAuthenticationManager : IAuthenticationManager
     {
         private readonly string _tokenKey;

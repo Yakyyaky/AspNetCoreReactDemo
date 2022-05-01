@@ -5,10 +5,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using AspNetCoreReactDemo.Authentication;
 using AspNetCoreReactDemo.Options;
 using AspNetCoreReactDemo.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,9 +25,6 @@ namespace AspNetCoreReactDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-
-            // services.AddAuthentication(LocalUserAuthentication.AuthenticationScheme)
-            //     .AddScheme<AuthenticationSchemeOptions, LocalUserAuthentication>(LocalUserAuthentication.AuthenticationScheme, null);
 
             var jwtTokenSection = Configuration.GetSection("JwtToken");
             services.Configure<JwtTokenOptions>(jwtTokenSection);
@@ -60,6 +55,7 @@ namespace AspNetCoreReactDemo
             });
 
             services.AddSingleton<IAuthenticationManager, BearerTokenAuthenticationManager>();
+            services.AddSingleton<IDemoModelStorage, StubDemoModelStorage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

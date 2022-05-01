@@ -2,10 +2,6 @@
 
 namespace AspNetCoreReactDemo.Model
 {
-    public class LocalUser : IdentityUser<string>
-    {
-    }
-
     public class UserCredential
     {
         public string Upn { get; set; }
