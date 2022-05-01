@@ -1,6 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AspNetCoreReactDemo.Extensions;
 using AspNetCoreReactDemo.Model;
 using AspNetCoreReactDemo.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -35,7 +34,7 @@ namespace AspNetCoreReactDemo.Controllers
                 || model.DenyUnlessLoggedIn && User.Identity.IsAuthenticated)
             {
                 // allow anonymous
-                if (await SaveData(model.SomeOtherField))
+                if (await _storage.SaveData(model.SomeOtherField))
                 {
                     return Ok(new ModelResult<ModelType1>(true, model));
                 }
@@ -49,20 +48,12 @@ namespace AspNetCoreReactDemo.Controllers
         [HttpPost("model2")]
         public async Task<IActionResult> HandleModel2([FromBody] ModelType2 model)
         {
-            if (await SaveData(model.SomeOtherField))
+            if (await _storage.SaveData(model.SomeOtherField))
             {
                 return Ok(new ModelResult<ModelType2>(true, model));
             }
 
             return Problem("failed to commit your data", null, StatusCodes.Status500InternalServerError);
-        }
-
-        private async Task<bool> SaveData(string data)
-        {
-            var result = await _storage.Update(data);
-            if (!result) return false;
-
-            return await _storage.SaveChanges();
-        }
+        }       
     }
 }

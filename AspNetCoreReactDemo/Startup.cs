@@ -1,4 +1,5 @@
 using System.Text;
+using AspNetCoreReactDemo.Auth;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using AspNetCoreReactDemo.Options;
 using AspNetCoreReactDemo.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AspNetCoreReactDemo
@@ -25,6 +28,11 @@ namespace AspNetCoreReactDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("DenyUnlessLoggedIn", policy => policy.Requirements.Add(new DenyUnlessLoggedInRequirement()));
+            });
 
             var jwtTokenSection = Configuration.GetSection("JwtToken");
             services.Configure<JwtTokenOptions>(jwtTokenSection);
@@ -54,8 +62,10 @@ namespace AspNetCoreReactDemo
                 configuration.RootPath = "ClientApp/build";
             });
 
+            services.AddHttpContextAccessor();
             services.AddSingleton<IAuthenticationManager, BearerTokenAuthenticationManager>();
             services.AddSingleton<IDemoModelStorage, StubDemoModelStorage>();
+            services.AddTransient<IAuthorizationHandler, DenyUnlessLoggedInAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
