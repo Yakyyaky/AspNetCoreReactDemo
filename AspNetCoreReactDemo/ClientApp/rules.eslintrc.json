@@ -1,0 +1,15 @@
+{
+  "rules": {
+    "comma-dangle": [ "error", "always-multiline" ],
+    "no-mixed-operators": "off",
+    "require-yield": "off",
+    "jsx-a11y/alt-text": "off",
+    "react/jsx-no-target-blank": 1,
+    "no-var": "error",
+    "@typescript-eslint/no-unused-vars": "off",
+    "@typescript-eslint/no-redeclare": "off",
+    "quotes": [ "error", "single", { "allowTemplateLiterals": true, "avoidEscape": true } ],
+    "semi": ["error", "never"],
+    "react/jsx-key": ["error", { "checkFragmentShorthand": true }]
+  }
+}
