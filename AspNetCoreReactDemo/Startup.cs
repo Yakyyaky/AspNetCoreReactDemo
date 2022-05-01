@@ -10,7 +10,6 @@ using AspNetCoreReactDemo.Options;
 using AspNetCoreReactDemo.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authorization.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 
 namespace AspNetCoreReactDemo
