@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AspNetCoreReactDemo.Model;
 using AspNetCoreReactDemo.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreReactDemo.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
@@ -19,11 +21,18 @@ namespace AspNetCoreReactDemo.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Authenticate([FromBody] UserCredential userCredential)
+        public async Task<IActionResult> SignIn([FromBody] UserCredential userCredential)
         {
-            var token = _authenticationManager.Authenticate(userCredential);
-            if (token == null) return Unauthorized();
-            return Ok(token);
+            var user = await _authenticationManager.SignIn(userCredential);
+            if (user == null) return Unauthorized();
+            return Ok(user);
+        }
+
+        [HttpPost("LogOut")]
+        public async Task<IActionResult> LogOut([FromBody] SignOutUser user)
+        {
+            var result = await _authenticationManager.LogOut(user.Upn);
+            return Ok(result);
         }
     }
 }

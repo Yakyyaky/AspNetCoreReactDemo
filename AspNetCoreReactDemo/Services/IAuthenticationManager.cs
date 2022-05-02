@@ -1,9 +1,11 @@
-﻿using AspNetCoreReactDemo.Model;
+﻿using System.Threading.Tasks;
+using AspNetCoreReactDemo.Model;
 
 namespace AspNetCoreReactDemo.Services
 {
     public interface IAuthenticationManager
     {
-        string Authenticate(UserCredential credential);
+        Task<AuthenticatedUser> SignIn(UserCredential credential);
+        Task<bool> LogOut(string upn);
     }
 }

@@ -64,6 +64,7 @@ namespace AspNetCoreReactDemo
             services.AddHttpContextAccessor();
             services.AddSingleton<IAuthenticationManager, BearerTokenAuthenticationManager>();
             services.AddSingleton<IDemoModelStorage, StubDemoModelStorage>();
+            services.AddSingleton<IUserService, InMemoryUserService>();
             services.AddTransient<IAuthorizationHandler, DenyUnlessLoggedInAuthorizationHandler>();
         }
 
