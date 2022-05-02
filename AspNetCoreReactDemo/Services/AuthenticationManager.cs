@@ -21,12 +21,12 @@ namespace AspNetCoreReactDemo.Services
             _tokenKey = options.Value.Secret;
         }
 
-        public Task<AuthenticatedUser> SignIn(UserCredential credential)
+        public async Task<AuthenticatedUser> SignIn(SignInCredential credential)
         {
-            var user = _userService.GetUser(credential);
+            var user = await _userService.GetUser(credential);
             if (user == null)
             {
-                return Task.FromResult<AuthenticatedUser>(null);
+                return null;
             }
 
             // always allowed
@@ -42,7 +42,7 @@ namespace AspNetCoreReactDemo.Services
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-            return Task.FromResult(new AuthenticatedUser(user, tokenHandler.WriteToken(token)));
+            return new AuthenticatedUser(user, tokenHandler.WriteToken(token));
         }
 
         public Task<bool> LogOut(string upn)

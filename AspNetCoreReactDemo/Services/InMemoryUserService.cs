@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AspNetCoreReactDemo.Model;
 
 namespace AspNetCoreReactDemo.Services
@@ -8,14 +9,14 @@ namespace AspNetCoreReactDemo.Services
     {
         private class UserData
         {
-            public UserData(User user, UserCredential credential)
+            public UserData(User user, SignInCredential credential)
             {
                 User = user;
                 Credential = credential;
             }
 
             public User User { get; }
-            public UserCredential Credential { get; }
+            public SignInCredential Credential { get; }
         }
 
         private readonly IDictionary<string, UserData> _users = new Dictionary<string, UserData>();
@@ -28,28 +29,25 @@ namespace AspNetCoreReactDemo.Services
             // ReSharper restore StringLiteralTypo
         }
 
-        public User GetUser(UserCredential credential)
+        public Task<User> GetUser(SignInCredential credential)
         {
             if (credential.IsValid 
                 && _users.TryGetValue(credential.Upn, out var userData) 
                 && string.Equals(credential.Password, userData.Credential.Password))
             {
-                return userData.User;
+                return Task.FromResult(userData.User);
             }
 
-            return null;
+            return Task.FromResult<User>(null);
         }
 
-        public User CreateUser(User newUser, string password)
-        {
-            throw new System.NotImplementedException();
-        }
+        public Task<User> CreateUser(User newUser, string password) => Task.FromResult(InternalCreateUser(newUser, password) ? newUser : null);
 
         private bool InternalCreateUser(User user, string password)
         {
             if (_users.ContainsKey(user.Upn)) return false;
 
-            _users[user.Upn] = new UserData(user, new UserCredential(user.Upn, password));
+            _users[user.Upn] = new UserData(user, new SignInCredential(user.Upn, password));
             return true;
         }
     }

@@ -1,11 +1,11 @@
 ﻿namespace AspNetCoreReactDemo.Model
 {
-    public class UserCredential
+    public class SignInCredential
     {
         // ReSharper disable once UnusedMember.Global
-        public UserCredential() { /* for serialization */ }
+        public SignInCredential() { /* for serialization */ }
 
-        public UserCredential(string upn, string password)
+        public SignInCredential(string upn, string password)
         {
             Upn = upn;
             Password = password;

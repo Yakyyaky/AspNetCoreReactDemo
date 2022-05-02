@@ -1,11 +1,12 @@
 ﻿using System.Collections;
+using System.Threading.Tasks;
 using AspNetCoreReactDemo.Model;
 
 namespace AspNetCoreReactDemo.Services
 {
     public interface IUserService
     {
-        User GetUser(UserCredential credential);
-        User CreateUser(User newUser, string password);
+        Task<User> GetUser(SignInCredential credential);
+        Task<User> CreateUser(User newUser, string password);
     }
 }

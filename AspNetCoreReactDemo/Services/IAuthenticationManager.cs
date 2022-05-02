@@ -5,7 +5,7 @@ namespace AspNetCoreReactDemo.Services
 {
     public interface IAuthenticationManager
     {
-        Task<AuthenticatedUser> SignIn(UserCredential credential);
+        Task<AuthenticatedUser> SignIn(SignInCredential credential);
         Task<bool> LogOut(string upn);
     }
 }
