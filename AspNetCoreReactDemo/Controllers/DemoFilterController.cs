@@ -20,7 +20,7 @@ namespace AspNetCoreReactDemo.Controllers
             _storage = storage;
         }
 
-        [HttpPost("model")]
+        [HttpPost]
         public async Task<IActionResult> HandleModel([FromBody] ModelType model)
         {
             if (await _storage.SaveData(model.SomeOtherField))
