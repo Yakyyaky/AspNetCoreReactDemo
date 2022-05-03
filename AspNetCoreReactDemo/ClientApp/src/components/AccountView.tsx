@@ -78,8 +78,8 @@ export default function AccountView({ className }: props) {
     {!user && <form>
       <label>Email<TextInput value={upn} onChange={e => setUpn(e.currentTarget.value)} placeholder='john.smith@example.com' /></label>
       <label>Password<TextInput type='password' value={password} onChange={e => setPassword(e.currentTarget.value)} /></label>
-      {createAccount && <label>First Name<TextInput value={firstName} onChange={e => setFirstName(e.currentTarget.value)} required/></label>}
-      {createAccount && <label>Last Name<TextInput value={lastName} onChange={e => setLastName(e.currentTarget.value)} required/></label>}
+      {createAccount && <label>First Name<TextInput value={firstName} onChange={e => setFirstName(e.currentTarget.value)} required /></label>}
+      {createAccount && <label>Last Name<TextInput value={lastName} onChange={e => setLastName(e.currentTarget.value)} required /></label>}
       <div className={css.buttonBar}>
         {!createAccount && <Button onClick={e => {
           e.preventDefault()
@@ -88,16 +88,24 @@ export default function AccountView({ className }: props) {
         {!createAccount && <Button onClick={e => {
           e.preventDefault()
           setCreateAccount(true)
+          setFirstName('')
+          setLastName('')
         }}>Sign Up</Button>}
         {createAccount && <Button onClick={e => {
           e.preventDefault()
           handleCreateAccount()
         }}>Create Account</Button>}
+        {createAccount && <Button onClick={e => {
+          e.preventDefault()
+          setCreateAccount(false)
+        }}>Cancel</Button>}
       </div>
     </form>}
     {user && <div className={css.container}>
-      Hi {user.user.firstName}
-      <Button onClick={() => handleSignOut()}>Sign out</Button>
+      <h2>Hi {user.user.firstName}</h2>
+      <div className={css.buttonBar}>
+        <Button onClick={() => handleSignOut()}>Sign out</Button>
+      </div>
     </div>}
 
     {errorText && <div>{errorText}</div>}
