@@ -23,7 +23,7 @@ export default function ApiPlaygroundView({ className }: props) {
   }
 
   return <div className={className}>
-    playground11
+    playground!!
     <button onClick={() => testModel()}>post</button>
   </div>
 }
