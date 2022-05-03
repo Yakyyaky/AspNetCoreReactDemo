@@ -6,16 +6,20 @@ using System.Threading.Tasks;
 using AspNetCoreReactDemo.Model;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace AspNetCoreReactDemo.Auth
 {
     public class DenyUnlessLoggedInAuthorizationHandler : AuthorizationHandler<DenyUnlessLoggedInRequirement>, IAuthorizationRequirement
     {
         private readonly IHttpContextAccessor _accessor;
+        private readonly IOptions<JsonOptions> _jsonOptions;
 
-        public DenyUnlessLoggedInAuthorizationHandler(IHttpContextAccessor accessor)
+        public DenyUnlessLoggedInAuthorizationHandler(IHttpContextAccessor accessor, IOptions<JsonOptions> jsonOptions)
         {
             _accessor = accessor;
+            _jsonOptions = jsonOptions;
         }
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, DenyUnlessLoggedInRequirement requirement)
@@ -32,7 +36,7 @@ namespace AspNetCoreReactDemo.Auth
                     return;
                 }
 
-                var model = JsonSerializer.Deserialize<DenyUnlessLoggedInType>(body);
+                var model = JsonSerializer.Deserialize<DenyUnlessLoggedInType>(body, _jsonOptions.Value.JsonSerializerOptions);
                 var denyUnlessLoggedIn = model.DenyUnlessLoggedIn.GetValueOrDefault(false);
                 if (!denyUnlessLoggedIn || IsLoggedIn(context))
                 {

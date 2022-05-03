@@ -34,7 +34,7 @@ namespace AspNetCoreReactDemo
             });
 
             var jwtTokenSection = Configuration.GetSection("JwtToken");
-            services.Configure<JwtTokenOptions>(jwtTokenSection);
+            services.AddOptions<JwtBearerOptions>().Bind(jwtTokenSection);
 
             var jwtTokenOption = jwtTokenSection.Get<JwtTokenOptions>();
             services.AddAuthentication(options =>
