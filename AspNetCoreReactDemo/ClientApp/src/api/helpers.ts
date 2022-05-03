@@ -9,16 +9,27 @@ export async function execute(url: string, init?: RequestInit) {
   return resp
 }
 
-export function reqInit(method: string, body?: any) {
-  return {
+export function reqInit(method: string, bearerToken: string | null, body?: any): RequestInit {
+  const headers = new Headers()
+  const init: RequestInit = {
     method,
-    headers: body === undefined ? undefined : { 'Content-Type': 'application/json' },
+    headers,
     body: JSON.stringify(body),
   }
+
+  if (body) {
+    headers.append('Content-Type', 'application/json')
+  }
+
+  if (bearerToken) {
+    headers.append('Authorization', 'Bearer ' + bearerToken)
+  }
+
+  return init
 }
 
-export function postInit(body?: any): RequestInit {
-  return reqInit('POST', body)
+export function postInit(bearerToken: string | null, body?: any): RequestInit {
+  return reqInit('POST', body, bearerToken)
 }
 
 export async function ensureSuccess(resp: Response) {

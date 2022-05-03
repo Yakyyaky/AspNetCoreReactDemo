@@ -19,10 +19,10 @@ export default function ApiPlaygroundView({ className }: props) {
 
   const [posted, setPosted] = useState('')
   const [result, setResult] = useState('')
+  const [resultTime, setResultTime] = useState<Date | null>(null)
 
   async function testModel() {
     try {
-      console.log('posting data')
       let data: ModelType = {
         someOtherField: someOtherField,
       }
@@ -32,12 +32,13 @@ export default function ApiPlaygroundView({ className }: props) {
       }
 
       const result = await postDemoFilter(data)
+      setResultTime(new Date())
       setPosted(JSON.stringify(data, null, 4))
       setResult(JSON.stringify(result, null, 4))
-      console.log('post success', data, '-->', result)
     } catch (e) {
       if (e instanceof HttpError) {
         console.log(`failed status: ${e.status} status text: ${e.statusText} body: ${e.body}`)
+        setResultTime(new Date())
         setResult(`Post failed with error ${e.status}`)
       }
       console.warn('failed', e)
@@ -57,7 +58,7 @@ export default function ApiPlaygroundView({ className }: props) {
       <pre>{posted}</pre>
     </div>
     <div className={classNames(css.container, css.group)}>
-      <div>Result:</div>
+      <div>Result received at {resultTime?.toLocaleTimeString()}</div>
       <pre>{result}</pre>
     </div>
   </div>

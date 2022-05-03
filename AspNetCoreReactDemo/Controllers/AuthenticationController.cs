@@ -27,10 +27,10 @@ namespace AspNetCoreReactDemo.Controllers
             return Ok(user);
         }
 
-        [HttpPost("LogOut")]
-        public async Task<IActionResult> LogOut([FromBody] SignOutUser user)
+        [HttpPost("SignOut")]
+        public async Task<IActionResult> SignOut([FromBody] SignOutUser user)
         {
-            var result = await _authenticationManager.LogOut(user.Upn);
+            var result = await _authenticationManager.SignOut(user.Upn);
             return Ok(result);
         }
     }

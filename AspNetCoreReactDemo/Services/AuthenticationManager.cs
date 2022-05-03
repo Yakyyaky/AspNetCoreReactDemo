@@ -45,7 +45,7 @@ namespace AspNetCoreReactDemo.Services
             return new AuthenticatedUser(user, tokenHandler.WriteToken(token));
         }
 
-        public Task<bool> LogOut(string upn)
+        public Task<bool> SignOut(string upn)
         {
             // TODO: perform sign out logic, currently access token is handled by client and is not actually revoked on the server.
             return Task.FromResult(true);
