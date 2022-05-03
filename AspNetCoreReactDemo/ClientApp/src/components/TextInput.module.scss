@@ -1,0 +1,14 @@
+.input {
+  padding: 0.3rem 0.25rem;
+  border: 2px solid transparent;
+  margin: 0.5rem 0;
+  border-radius: 3px;
+  background: #383c44;
+  color: white;
+
+  &:focus {
+    border-bottom-color: #6264a7;
+    outline: none;
+  }
+}
+

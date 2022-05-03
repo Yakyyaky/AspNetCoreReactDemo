@@ -5,6 +5,7 @@ import { HttpError } from '../api/helpers'
 import { ModelType } from '../models/modelType'
 import css from './ApiPlaygroundView.module.scss'
 import Button from './Button'
+import TextInput from './TextInput'
 import Toggle from './Toggle'
 
 interface props {
@@ -46,7 +47,7 @@ export default function ApiPlaygroundView({ className }: props) {
   return <div className={classNames(css.container, className)}>
     <h2>Demo Playground</h2>
     <div className={classNames(css.container, css.group)}>
-      <label>SomeOtherField<input value={someOtherField} onChange={e => setSomeOtherField(e.currentTarget.value)} /></label>
+      <label>SomeOtherField<TextInput value={someOtherField} onChange={e => setSomeOtherField(e.currentTarget.value)} /></label>
       <label>Use Deny Field<Toggle value={hasDenyField} onChange={e => setHasDenyField(e)} /></label>
       <label>Deny Unless Logged In<Toggle value={denyUnlessLoggedIn} onChange={e => setDenyUnlessLoggedIn(e)} disabled={!hasDenyField} /></label>
       <Button onClick={() => testModel()}>Send</Button>
