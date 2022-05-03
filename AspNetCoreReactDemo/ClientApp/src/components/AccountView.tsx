@@ -1,6 +1,6 @@
 import classNames from 'classnames'
 import { useState } from 'react'
-import { setToken, signIn, signOut } from '../api'
+import { registerUser, setToken, signIn, signOut } from '../api'
 import { HttpError } from '../api/helpers'
 import { AuthenticatedUser } from '../models/user'
 import css from './AccountView.module.scss'
@@ -16,6 +16,9 @@ export default function AccountView({ className }: props) {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState<AuthenticatedUser | null>(null)
   const [errorText, setErrorText] = useState('')
+  const [createAccount, setCreateAccount] = useState(false)
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName] = useState<string>('')
 
   async function handleSignIn() {
     if (!upn || !password) return
@@ -49,15 +52,48 @@ export default function AccountView({ className }: props) {
     setToken(null)
   }
 
+  async function handleCreateAccount() {
+    if (!upn || !password || !firstName || !lastName) {
+      setErrorText('Please fill in all input fields')
+      return
+    }
+
+    try {
+      await registerUser({
+        password,
+        user: {
+          firstName, lastName, upn,
+        },
+      })
+    } catch (e) {
+      if (e instanceof HttpError) {
+        setErrorText(`Failed to register user. Error Code: ${e.status}`)
+      }
+    }
+    setCreateAccount(false)
+  }
+
   return <div className={classNames(css.container, className)}>
     {!user && <h2>Sign In</h2>}
     {!user && <form>
       <label>Email<TextInput value={upn} onChange={e => setUpn(e.currentTarget.value)} placeholder='john.smith@example.com' /></label>
       <label>Password<TextInput type='password' value={password} onChange={e => setPassword(e.currentTarget.value)} /></label>
-      <Button onClick={e => {
-        e.preventDefault()
-        handleSignIn()
-      }}>Sign In</Button>
+      {createAccount && <label>First Name<TextInput value={firstName} onChange={e => setFirstName(e.currentTarget.value)} required/></label>}
+      {createAccount && <label>Last Name<TextInput value={lastName} onChange={e => setLastName(e.currentTarget.value)} required/></label>}
+      <div className={css.buttonBar}>
+        {!createAccount && <Button onClick={e => {
+          e.preventDefault()
+          handleSignIn()
+        }}>Sign In</Button>}
+        {!createAccount && <Button onClick={e => {
+          e.preventDefault()
+          setCreateAccount(true)
+        }}>Sign Up</Button>}
+        {createAccount && <Button onClick={e => {
+          e.preventDefault()
+          handleCreateAccount()
+        }}>Create Account</Button>}
+      </div>
     </form>}
     {user && <div className={css.container}>
       Hi {user.user.firstName}

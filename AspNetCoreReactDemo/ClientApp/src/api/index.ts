@@ -1,5 +1,5 @@
 import { ModelType } from '../models/modelType'
-import { AuthenticatedUser, SignInCredential, SignOutUser } from '../models/user'
+import { AuthenticatedUser, SignInCredential, SignOutUser, User, UserRegistration } from '../models/user'
 import { execute, query, reqInit } from './helpers'
 
 export async function postDemoFilter(modelType: ModelType) {
@@ -14,8 +14,8 @@ export async function signOut(user: SignOutUser) {
   return await query<boolean>('/api/authentication/signout', reqInit('POST', bearerToken, user))
 }
 
-export async function registerUser(credential: SignInCredential): Promise<AuthenticatedUser | null> {
-  return await query<AuthenticatedUser | null>('/api/authentication', reqInit('POST', null, credential))
+export async function registerUser(registration: UserRegistration): Promise<User> {
+  return await query<User>('/api/registration', reqInit('POST', null, registration))
 }
 
 let bearerToken: string | null
