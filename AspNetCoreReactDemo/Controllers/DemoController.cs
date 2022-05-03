@@ -20,15 +20,9 @@ namespace AspNetCoreReactDemo.Controllers
             _storage = storage;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            return Ok("Wee!! you're authenticated to make request");
-        }
-
         [AllowAnonymous]
         [HttpPost("model1")]
-        public async Task<IActionResult> HandleModel1([FromBody] ModelType1 model)
+        public async Task<ActionResult<ModelResult<ModelType1>>> HandleModel1([FromBody] ModelType1 model)
         {
             if (!model.DenyUnlessLoggedIn 
                 || model.DenyUnlessLoggedIn && User.Identity.IsAuthenticated)
@@ -36,7 +30,7 @@ namespace AspNetCoreReactDemo.Controllers
                 // allow anonymous
                 if (await _storage.SaveData(model.SomeOtherField))
                 {
-                    return Ok(new ModelResult<ModelType1>(true, model));
+                    return new ModelResult<ModelType1>(true, model);
                 }
 
                 return Problem("failed to commit your data", null, StatusCodes.Status500InternalServerError);
@@ -46,11 +40,11 @@ namespace AspNetCoreReactDemo.Controllers
         }
 
         [HttpPost("model2")]
-        public async Task<IActionResult> HandleModel2([FromBody] ModelType2 model)
+        public async Task<ActionResult<ModelResult<ModelType2>>> HandleModel2([FromBody] ModelType2 model)
         {
             if (await _storage.SaveData(model.SomeOtherField))
             {
-                return Ok(new ModelResult<ModelType2>(true, model));
+                return new ModelResult<ModelType2>(true, model);
             }
 
             return Problem("failed to commit your data", null, StatusCodes.Status500InternalServerError);

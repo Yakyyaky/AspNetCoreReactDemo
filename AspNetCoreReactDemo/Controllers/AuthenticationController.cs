@@ -20,18 +20,18 @@ namespace AspNetCoreReactDemo.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> SignIn([FromBody] SignInCredential signInCredential)
+        public async Task<ActionResult<AuthenticatedUser>> SignIn([FromBody] SignInCredential signInCredential)
         {
             var user = await _authenticationManager.SignIn(signInCredential);
             if (user == null) return Unauthorized();
-            return Ok(user);
+            return user;
         }
 
         [HttpPost("SignOut")]
-        public async Task<IActionResult> SignOut([FromBody] SignOutUser user)
+        public async Task<ActionResult<bool>> SignOut([FromBody] SignOutUser user)
         {
             var result = await _authenticationManager.SignOut(user.Upn);
-            return Ok(result);
+            return result;
         }
     }
 }

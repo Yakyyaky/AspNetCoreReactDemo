@@ -18,11 +18,11 @@ namespace AspNetCoreReactDemo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] UserRegistration registration)
+        public async Task<ActionResult<User>> Register([FromBody] UserRegistration registration)
         {
             var newUser = await _userService.CreateUser(registration.User, registration.Password);
             if (newUser == null) return BadRequest();
-            return Ok(newUser);
+            return newUser;
         }
     }
 }

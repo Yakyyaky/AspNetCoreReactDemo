@@ -21,11 +21,11 @@ namespace AspNetCoreReactDemo.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> HandleModel([FromBody] ModelType model)
+        public async Task<ActionResult<ModelResult<ModelType>>> HandleModel([FromBody] ModelType model)
         {
             if (await _storage.SaveData(model.SomeOtherField))
             {
-                return Ok(new ModelResult<ModelType>(true, model));
+                return new ModelResult<ModelType>(true, model);
             }
 
             return Problem("failed to commit your data", null, StatusCodes.Status500InternalServerError);
