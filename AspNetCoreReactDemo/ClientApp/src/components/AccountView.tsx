@@ -1,7 +1,7 @@
 interface props {
-    className?: string
+  className?: string
 }
 
 export default function AccountView({ className }: props) {
-    return <div className={className}>account</div>
+  return <div className={className}>account</div>
 }

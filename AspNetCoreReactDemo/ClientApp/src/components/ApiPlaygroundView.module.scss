@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  flex-direction: column;
+
+  > * {
+    margin: 0.25em 1em;
+  }
+
+  label > input {
+    margin: 0.25em 1em;
+  }
+
+  .group {
+    border: 1px solid slategray;
+    padding: 0.5em 0em;
+  }
+}

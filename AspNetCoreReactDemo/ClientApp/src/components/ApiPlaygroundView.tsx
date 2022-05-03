@@ -1,29 +1,63 @@
+import classNames from 'classnames'
+import { useState } from 'react'
 import { postDemoFilter } from '../api'
 import { HttpError } from '../api/helpers'
+import { ModelType } from '../models/modelType'
+import css from './ApiPlaygroundView.module.scss'
+import Button from './Button'
+import Toggle from './Toggle'
 
 interface props {
   className?: string
 }
 
 export default function ApiPlaygroundView({ className }: props) {
+  const [hasDenyField, setHasDenyField] = useState(false)
+  const [denyUnlessLoggedIn, setDenyUnlessLoggedIn] = useState(false)
+  const [someOtherField, setSomeOtherField] = useState('Some other field text here')
+
+  const [posted, setPosted] = useState('')
+  const [result, setResult] = useState('')
+
   async function testModel() {
     try {
       console.log('posting data')
-      const result = await postDemoFilter({
-        denyUnlessLoggedIn: true,
-        someOtherField: 'testin data goes here',
-      })
-      console.log('post success', result)
+      let data: ModelType = {
+        someOtherField: someOtherField,
+      }
+      if (hasDenyField) {
+        // only set the value if it's wanted to be sent
+        data.denyUnlessLoggedIn = denyUnlessLoggedIn
+      }
+
+      const result = await postDemoFilter(data)
+      setPosted(JSON.stringify(data, null, 4))
+      setResult(JSON.stringify(result, null, 4))
+      console.log('post success', data, '-->', result)
     } catch (e) {
       if (e instanceof HttpError) {
         console.log(`failed status: ${e.status} status text: ${e.statusText} body: ${e.body}`)
+        setResult(`Post failed with error ${e.status}`)
       }
       console.warn('failed', e)
     }
   }
 
-  return <div className={className}>
-    playground!!
-    <button onClick={() => testModel()}>post</button>
+  return <div className={classNames(css.container, className)}>
+    <h2>Demo Playground</h2>
+    <div className={classNames(css.container, css.group)}>
+      <label>SomeOtherField<input value={someOtherField} onChange={e => setSomeOtherField(e.currentTarget.value)} /></label>
+      <label>Use Deny Field<Toggle value={hasDenyField} onChange={e => setHasDenyField(e)} /></label>
+      <label>Deny Unless Logged In<Toggle value={denyUnlessLoggedIn} onChange={e => setDenyUnlessLoggedIn(e)} disabled={!hasDenyField} /></label>
+      <Button onClick={() => testModel()}>Send</Button>
+    </div>
+    <div className={classNames(css.container, css.group)}>
+      <div>Posted:</div>
+      <pre>{posted}</pre>
+    </div>
+    <div className={classNames(css.container, css.group)}>
+      <div>Result:</div>
+      <pre>{result}</pre>
+    </div>
   </div>
 }
