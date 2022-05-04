@@ -9,8 +9,9 @@ This projects also demostrate the use of Authorization filter. The easiest way t
 
 <img src="https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters/_static/filter-pipeline-2.png?view=aspnetcore-3.1" />
 
-Further details can be found here.
-https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-3.1
+Further details can be found here. [Filters in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-3.1)
 
-See example implementation here.
-https://docs.microsoft.com/en-us/aspnet/core/security/authorization/claims?view=aspnetcore-6.0
+See example implementation here. [Claims-based authorization in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/security/authorization/claims?view=aspnetcore-3.1)
+
+### Postman Collection
+You can test the various api using postman. An exported collection can be found [here](/ReadMeAssets/Demo.postman_collection.json)
