@@ -102,7 +102,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"upn\": \"jpl.foo@gmail.com\",\r\n    \"password\": \"fphtest\"\r\n}",
+							"raw": "{\r\n    \"upn\": \"test.user@gmail.com\",\r\n    \"password\": \"fphtest\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -150,7 +150,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"upn\": \"jpl.foo@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"upn\": \"test.user@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,7 +251,7 @@
 					"response": []
 				},
 				{
-					"name": "Post Model (Auth)",
+					"name": "Post Model (Auth Required)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -406,7 +406,7 @@
 					"response": []
 				},
 				{
-					"name": "Post Model1 Deny (Auth)",
+					"name": "Post Model1 Deny (Auth Required)",
 					"request": {
 						"auth": {
 							"type": "bearer",
