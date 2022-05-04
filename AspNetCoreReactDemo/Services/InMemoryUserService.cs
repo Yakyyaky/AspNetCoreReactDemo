@@ -24,7 +24,7 @@ namespace AspNetCoreReactDemo.Services
         public InMemoryUserService()
         {
             // ReSharper disable StringLiteralTypo
-            InternalCreateUser(new User("jpl.foo@gmail.com", "Jordan", "Foo"), @"fphtest");
+            InternalCreateUser(new User("jordan@gmail.com", "Jordan", "Foo"), @"fphtest");
             InternalCreateUser(new User("test.user@gmail.com", "Test", "User"), @"fphtest");
             // ReSharper restore StringLiteralTypo
         }
